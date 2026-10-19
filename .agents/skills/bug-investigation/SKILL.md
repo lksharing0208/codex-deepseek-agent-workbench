@@ -1,27 +1,27 @@
 ---
 name: bug-investigation
 description: >
-  Diagnose bugs using evidence and propose minimal fixes and regression tests.
-  Use when observed vs expected behavior is unclear or a defect must be isolated.
-  Do not use for greenfield feature delivery or routine release packaging.
-  Do not claim root cause without concrete evidence.
+  基于证据定位故障，提出最小修复方案和回归测试。
+  当实际行为与预期不一致、需要隔离缺陷时使用。
+  不适用于从零开发新功能或单纯整理发布包。
+  没有具体证据时，不得宣称已确认根因。
 ---
 
-## Decision tree
+## 决策树
 
-1. Restate observed/expected behavior, environment, and reproduction steps.
-2. Search exact error, stack frames, call sites, config, recent changes.
-3. Separate facts, hypotheses, and missing evidence.
-4. If evidence is insufficient, propose low-risk discriminating checks before any fix.
-5. After approval, implement minimal fix + regression test; validate; report.
+1. 重述实际行为、预期行为、运行环境和复现步骤。
+2. 搜索完整错误信息、堆栈、调用位置、配置和近期变更。
+3. 将已确认事实、假设和缺失证据分开记录。
+4. 证据不足时，先提出低风险且能区分假设的检查，不要立即修改。
+5. 方向明确并获得授权后，再实施最小修复、补充回归测试、验证并报告。
 
-## Workflow
+## 工作流程
 
-1. Trace call flow; rank hypotheses.
-2. Do not claim root cause without evidence.
-3. Implement minimal fix and regression test only after direction is clear.
-4. Run tests and review adjacent failure paths; record exact commands/results.
-5. Report:
+1. 梳理调用链并按可能性排列假设。
+2. 没有证据时，不得将推测表述为根因。
+3. 只有在修复方向明确后，才实施最小修复并增加回归测试。
+4. 运行测试并检查相邻失败路径；记录准确命令和结果。
+5. 按以下结构报告：
 
 ```text
 evidence:
@@ -32,4 +32,4 @@ risks:
 follow_ups:
 ```
 
-Redact secrets, personal data, and production identifiers from logs.
+日志中的密钥、个人数据和生产环境标识必须脱敏。
