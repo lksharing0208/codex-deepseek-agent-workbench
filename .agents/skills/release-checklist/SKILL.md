@@ -1,23 +1,23 @@
 ---
 name: release-checklist
 description: >
-  Prepare safe GitHub delivery by checking tests, diff, secrets, docs, and release notes.
-  Use immediately before commit/PR readiness.
-  Do not push, publish, deploy, or change repository visibility without explicit approval.
-  Do not use for feature implementation or bug diagnosis alone.
+  在准备提交或创建 Pull Request 前，检查测试、差异、秘密信息、文档和发布说明。
+  仅在发布准备阶段使用。
+  未经明确授权，不得推送、发布、部署或修改仓库可见性。
+  不适用于单独的功能实现或故障诊断。
 ---
 
-## Workflow
+## 工作流程
 
-1. Inspect git status and `git diff --check`.
-2. Exclude `.env`, credentials, local config, logs, customer data, build artifacts.
-3. Run `bash scripts/validate.sh` and relevant tests; record exact results.
-4. Verify setup/docs and config examples still match reality.
-5. Summarize breaking changes, migration, rollback, risks.
-6. Draft commit message and PR summary.
-7. Stop: do not push/publish/deploy without explicit approval.
+1. 检查 `git status` 和 `git diff --check`。
+2. 排除 `.env`、凭据、本地配置、日志、客户数据和构建产物。
+3. 运行 `bash scripts/validate.sh` 及相关测试，并记录准确结果。
+4. 核实环境配置文档和示例仍然符合实际情况。
+5. 总结不兼容变更、迁移方式、回滚方案和风险。
+6. 草拟提交说明与 Pull Request 描述。
+7. 停止：未经明确授权，不得推送、发布或部署。
 
-## Output
+## 输出格式
 
 ```text
 ready_for_human_approval: yes|no
