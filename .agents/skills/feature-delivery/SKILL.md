@@ -1,28 +1,28 @@
 ---
 name: feature-delivery
 description: >
-  Deliver a feature through requirements, design, implementation, tests, review, and handoff.
-  Use for feature work with clear acceptance criteria.
-  Do not use for pure investigation, one-line typo fixes, or release packaging alone.
-  Do not use as a substitute for setup/repair of model providers.
+  按需求、设计、实现、测试、审查和交接的流程交付功能。
+  适用于验收标准明确的功能开发任务。
+  不适用于纯调查、单行拼写修正或单独整理发布包。
+  不得用本技能替代模型服务商的配置或修复流程。
 ---
 
-## Decision tree
+## 决策树
 
-1. Read `AGENTS.md`, repository structure, related code/tests/docs.
-2. If acceptance criteria are critically ambiguous, ask once; otherwise proceed with stated assumptions listed in the final report.
-3. Non-trivial? Prefer Explorer (read-only) then Architect before implementation.
-4. If a prior delegated handoff failed (`missing_assignment`), repair/re-delegate; never substitute parent output.
+1. 阅读 `AGENTS.md`、项目结构及相关代码、测试和文档。
+2. 如果验收标准存在会阻碍安全执行的关键歧义，只追问一次；否则按明确假设继续，并在最终报告中列出假设。
+3. 对非简单任务，优先使用 Explorer 进行只读调查，再由 Architect 设计方案。
+4. 如果此前的子任务交接失败（`missing_assignment`），先修复交接问题并重新委派；禁止由父级替代子级结果。
 
-## Workflow
+## 工作流程
 
-1. Define acceptance criteria and impacted modules (compatibility, failure modes, security).
-2. Implement the smallest complete change using project conventions; keep file scopes bounded.
-3. Add success, boundary, and failure-path tests.
-4. Run targeted tests and `bash scripts/validate.sh` when practical; record exact commands and results.
-5. Request independent review; fix valid findings; rerun checks.
-6. Check final diff for secrets, generated/unrelated files, missing docs.
-7. Report with structured output:
+1. 明确验收标准和受影响模块，包括兼容性、失败路径及安全风险。
+2. 遵循项目约定实施最小且完整的改动，并明确各自的文件范围。
+3. 补充成功路径、边界情况和失败路径测试。
+4. 条件允许时运行专项测试及 `bash scripts/validate.sh`，记录准确命令和结果。
+5. 请求独立审查，修复有效问题并重新运行检查。
+6. 检查最终差异，排除密钥、生成文件、无关改动及缺失文档。
+7. 使用以下结构报告：
 
 ```text
 结果：...
@@ -33,4 +33,4 @@ description: >
 建议下一步：...
 ```
 
-Stop before destructive operations, production writes, publishing, credential rotation, or deployment unless authorized.
+未经授权，不执行破坏性操作、生产写入、发布、凭据轮换或部署。
