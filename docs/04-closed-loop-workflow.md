@@ -1,88 +1,88 @@
-# Full Closed Loop (Optimized)
+# 完整工作闭环（优化版）
 
-This document defines the **agent skills + scripts + prompt words** closed-loop used by this workbench in AI coding scenarios.
+本文说明本工作台在 AI 编程场景中采用的 **技能 + 脚本 + 提示词** 协作闭环。
 
-## Loop overview
+## 闭环总览
 
 ```text
-Intake → Status/Inspect → Plan → Implement → Validate (scripts) → Review → Deliver
-                ↑________________ repair / re-delegate on failure ______________|
+接收需求 → 检查状态/调查 → 制定方案 → 实现 → 脚本验证 → 独立审查 → 交付
+                  ↑________________ 失败后修复/重新委派 ________________|
 ```
 
-## A. Intake
+## A. 接收需求
 
-Capture:
+明确记录：
 
-- goal
-- current vs expected behavior
-- constraints and exclusions
-- acceptance criteria
-- risk and rollback needs
+- 目标
+- 当前行为与预期行为
+- 约束与排除范围
+- 验收标准
+- 风险与回滚需求
 
-Use a prompt template (see `prompts/`) rather than free-form chat when the task is repeatable.
+对于重复性任务，优先使用 `prompts/` 中的模板，而不是每次从零编写自由文本。
 
-## B. Status / Inspect (decision tree)
+## B. 检查状态与调查（决策树）
 
-Before any configuration or heavy delegation:
+执行配置操作或大规模委派任务之前：
 
-1. Read `AGENTS.md` and relevant repo files.
-2. For setup/repair style work, obtain a structured status first (script or explicit inspection).
-3. Branch:
+1. 阅读 `AGENTS.md` 和相关项目文件。
+2. 对配置或修复任务，先获取结构化状态信息（通过脚本或明确的人工检查）。
+3. 根据状态选择行动：
 
-| Status | Action |
-|--------|--------|
-| ready / healthy | Do **not** reconfigure; proceed to plan or daily delegation |
-| not_configured / missing | Run setup path only |
-| parent_model_changed / drift | Run repair path |
-| handoff_failed | Repair, then re-delegate; never substitute parent output |
-| conflict | Report exact paths; ask before overwrite |
-| failed / unsupported | Stop, report errors, do not force |
+| 状态 | 应采取的行动 |
+|---|---|
+| 已就绪 / 健康 | 不重复配置，继续制定方案或正常委派 |
+| 未配置 / 缺失 | 仅执行配置流程 |
+| 父模型已变更 / 配置漂移 | 执行修复流程 |
+| 交接失败 | 修复问题后重新委派，禁止用父级结果替代子级结果 |
+| 存在冲突 | 报告准确路径，覆盖前先征求同意 |
+| 失败 / 不支持 | 停止操作并报告错误，不得强行继续 |
 
-## C. Plan
+## C. 制定方案
 
-- Use Explorer (read-only) and Architect for non-trivial work.
-- Identify impacted modules, tests, compatibility, and rollback.
-- Bound file scopes so parallel agents do not overlap.
+- 对非简单任务，使用 Explorer 进行只读调查，使用 Architect 设计方案。
+- 明确影响模块、测试、兼容性及回滚方式。
+- 划分文件范围，避免并行智能体修改同一文件。
 
-## D. Implement
+## D. 实施
 
-- Smallest complete change following project conventions.
-- One implementer per overlapping file scope.
-- Prefer Skills (`feature-delivery`, `bug-investigation`, …) over ad-hoc prompts when the workflow is known.
+- 遵循项目约定，完成范围内最小且完整的改动。
+- 对重叠的文件修改范围，只指定一个实现者。
+- 已知工作流优先使用技能（例如 `feature-delivery`、`bug-investigation`），不要每次临时拼接提示词。
 
-## E. Validate (scripts + evidence)
+## E. 验证（脚本与证据）
 
-Always prefer scripts for deterministic checks:
+确定性校验优先使用脚本：
 
 ```bash
 bash scripts/validate.sh
 ```
 
-Plus targeted tests. Record **exact** commands and outcomes.
+同时运行相关专项测试，并记录**准确的命令与执行结果**。
 
-Verification contract for any delegated worker result:
+任何委派任务的验证约定：
 
-1. Child actually received the assignment (no empty handoff).
-2. Result produced by the child (anti-substitution).
-3. `verification_evidence` present (commands, tests, paths).
-4. Risks and follow-ups listed.
-5. No secrets in output or diff.
+1. 子智能体确实收到了任务，不能存在空交接。
+2. 结果必须来自实际执行任务的子智能体，不得由父级冒充。
+3. 必须提供 `verification_evidence`（命令、测试或文件路径）。
+4. 必须列出风险和后续事项。
+5. 输出与差异中不得包含秘密信息。
 
-Any failure → mark incomplete, repair or re-delegate, re-validate.
+任一项失败，都应标记为未完成，修复或重新委派后再次验证。
 
-## F. Review
+## F. 独立审查
 
-Independent Reviewer checks:
+由 Reviewer 检查：
 
-- correctness, integrity, security, auth
-- retries/idempotency, concurrency
-- compatibility, observability, tests, secrets
+- 正确性、数据完整性、安全性与权限控制
+- 重试机制、幂等性和并发行为
+- 兼容性、可观测性、测试覆盖及秘密信息
 
-Fix valid findings and **re-run** checks.
+修复有效问题后，必须**重新执行检查**。
 
-## G. Deliver
+## G. 交付
 
-Final report template (mandatory structure):
+最终报告必须使用以下结构：
 
 ```text
 结果：...
@@ -93,27 +93,27 @@ Final report template (mandatory structure):
 建议下一步：...
 ```
 
-No push, publish, deploy, or production mutation without explicit human approval.
+未经明确的人工授权，不得推送、发布、部署或修改生产环境。
 
-## Skills + Scripts + Promptwords mapping
+## 技能、脚本与提示词的职责映射
 
-| Layer | Role | Examples |
-|-------|------|----------|
-| **Promptwords** | Task brief / intake / handoff language | `prompts/00-orchestrator.md`, delivery prompts |
-| **Skills** | Repeatable multi-step workflows with constraints | `.agents/skills/*/SKILL.md` |
-| **Scripts** | Deterministic, side-effectful, verifiable actions | `scripts/validate.sh`, install helpers |
+| 层 | 职责 | 示例 |
+|---|---|---|
+| **提示词** | 任务描述、需求接收与交接语言 | `prompts/00-orchestrator.md`、交付提示词 |
+| **技能** | 带约束的可重复多步骤工作流 | `.agents/skills/*/SKILL.md` |
+| **脚本** | 确定性、可验证且可能产生副作用的操作 | `scripts/validate.sh`、安装脚本 |
 
-Rules:
+规则：
 
-- Skills decide **when** and **what**; scripts do **how** for mutable/config operations.
-- Prompts must not replace Skills for multi-step flows.
-- Scripts must emit clear pass/fail (and structured output where possible).
-- Parent never invents script or child results.
+- 技能决定何时执行以及执行什么；涉及配置或变更时，由脚本负责具体操作。
+- 多步骤流程不应仅靠提示词替代技能。
+- 脚本必须输出清晰的成功/失败状态，必要时提供结构化结果。
+- 父智能体不得编造脚本或子智能体的执行结果。
 
-## Anti-patterns (forbidden)
+## 禁止的反模式
 
-- Re-running setup when status is already ready
-- Parent answering on behalf of a failed child handoff
-- Claiming tests passed without running them
-- Committing secrets or local Codex config
-- Overlapping file edits by parallel agents without coordinator merge
+- 状态已就绪仍重复执行配置
+- 子智能体交接失败时，由父智能体冒充其结果
+- 未实际运行测试就宣称测试通过
+- 提交秘密信息或本地 Codex 配置
+- 并行智能体修改范围重叠且没有协调者整合
