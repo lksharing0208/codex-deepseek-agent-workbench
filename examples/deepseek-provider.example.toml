@@ -1,6 +1,6 @@
-# EXAMPLE ONLY. Manually merge valid keys into ~/.codex/config.toml after checking current docs.
-# Never overwrite the existing config blindly. Never store API keys in this tracked file.
-# Provider schema and supported wire protocol vary by Codex version.
+# 仅供参考：核对当前官方文档后，再手动合并有效配置到 ~/.codex/config.toml。
+# 不要直接覆盖现有配置，也不要将 API 密钥保存在此仓库文件中。
+# Provider 配置格式和支持的通信协议会随 Codex 版本变化。
 # [model_providers.deepseek]
 # name = "DeepSeek"
 # base_url = "https://api.deepseek.com"
