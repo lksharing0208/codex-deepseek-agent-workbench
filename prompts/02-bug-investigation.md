@@ -1,7 +1,7 @@
-# Bug Investigation Template
+# 故障排查模板
 
-- Symptom / exact error: [fill in]
-- Expected behavior: [fill in]
-- Environment / reproduction: [fill in; redact secrets]
+- 现象 / 完整错误信息：[填写；注意脱敏]
+- 预期行为：[填写]
+- 环境 / 复现步骤：[填写；不要包含密钥]
 
-Deliver an evidence-based call-flow trace, confirmed facts vs hypotheses, ranked root causes and discriminating checks, minimal fix proposal, regression-test plan, and (after approval) fix/test/review. State when evidence is insufficient. Never expose credentials or production personal data.
+请基于证据梳理调用链，区分已确认事实与待验证假设，按可能性排序根因并提出可区分假设的检查方法，给出最小修复方案和回归测试计划。获得授权后再实施修复、测试和审查。证据不足时必须明确说明，不得将猜测表述为根因。不得泄露凭据或生产环境个人数据。
