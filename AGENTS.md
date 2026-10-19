@@ -1,26 +1,26 @@
-# Project Instructions
+# 项目协作规范
 
-## Core rules
+## 核心规则
 
-- Inspect repository and relevant files before editing; preserve existing business semantics.
-- For non-trivial tasks define acceptance criteria, plan, risks and rollback before implementation.
-- Use Explorer for read-only investigation, Architect for design, Implementer for bounded changes, Tester for validation, Reviewer for independent review.
-- Do not let multiple agents edit overlapping files concurrently. Coordinator owns integration and verifies claims.
-- Never invent APIs, repository facts, test results, or external behavior.
-- Never commit secrets, tokens, private keys, `.env`, local Codex config, personal logs, or production data.
-- Avoid destructive commands and production mutations unless explicitly authorized.
-- Run targeted tests and `bash scripts/validate.sh`; report exact commands and results.
+- 修改前先检查项目规则和相关代码，保持既有业务语义。
+- 非简单任务必须先明确验收标准、实施计划、风险和回滚方案。
+- 按需使用 Explorer（只读调查）、Architect（方案设计）、Implementer（受限实现）、Tester（验证测试）、Reviewer（独立审查）。
+- 不允许多个智能体同时修改重叠的文件范围；由协调者负责整合并核实结果。
+- 不得编造 API、仓库事实、测试结果或外部系统行为。
+- 不得提交密钥、令牌、私钥、`.env`、本机 Codex 配置、个人日志或生产数据。
+- 未经明确授权，不执行破坏性命令或生产环境变更。
+- 执行相关测试及 `bash scripts/validate.sh`，并记录准确的命令和结果。
 
-## Closed-loop integrity (mandatory)
+## 闭环完整性（强制要求）
 
-- **Anti-substitution**: Parent/coordinator must never fabricate or substitute a sub-agent result. If a delegated agent reports missing assignment or empty handoff, treat it as `handoff_failed`, re-run repair/delegation, and do not present parent output as the child result.
-- **Evidence over narrative**: Accept claims only with concrete evidence (paths, diffs, command output, test names). Missing evidence = open item, not done.
-- **Structured handoff**: Prefer `WORKER_REPORT` style output for any delegated work:
+- **禁止结果替代**：父智能体/协调者不得伪造或替代子智能体结果。如果子智能体反馈缺少任务分配或交接内容为空，应标记为 `handoff_failed`，修复后重新委派；不得把父智能体生成的内容说成子智能体的结果。
+- **证据优先于描述**：结论必须有具体证据支持，例如文件路径、差异、命令输出或测试名称。缺少证据时应列为待办，不得标记完成。
+- **结构化交接**：委派任务优先使用 `WORKER_REPORT` 格式：
   ```text
   changed_files:
   verification_evidence:
   risks:
   follow_ups:
   ```
-- **Status before action**: For configuration, repair, or multi-agent setup tasks, inspect current status first; only then run setup/repair. Do not re-run configuration when status is already ready.
-- **Definition of done**: acceptance criteria addressed, checks reported honestly, no secrets/unrelated changes, docs updated when needed, known gaps listed, next action clear.
+- **先检查状态，再执行操作**：配置、修复或多智能体设置任务应先检查当前状态，再决定是否执行安装或修复。状态已就绪时不要重复配置。
+- **完成标准**：验收标准已处理；如实报告检查结果；无密钥及无关改动；必要文档已更新；明确列出已知问题和下一步。
