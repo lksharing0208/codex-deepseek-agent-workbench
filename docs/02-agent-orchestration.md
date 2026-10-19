@@ -1,33 +1,33 @@
-# Agent Orchestration
+# 智能体编排指南
 
-| Agent | Purpose | Output |
+| 智能体 | 用途 | 输出内容 |
 |---|---|---|
-| Explorer | Read-only code discovery | Evidence, paths, call flow, unknowns |
-| Architect | Multi-file design | Interfaces, risks, tests, acceptance criteria |
-| Implementer | Bounded implementation | Code and tests |
-| Tester | Validation | Exact commands, outcomes, gaps |
-| Reviewer | Independent review | Prioritized findings |
+| Explorer（探索者） | 只读调查代码库 | 证据、路径、调用链、未知项 |
+| Architect（架构设计者） | 设计多文件改动方案 | 接口、风险、测试、验收标准 |
+| Implementer（实现者） | 在明确范围内实施修改 | 代码与测试 |
+| Tester（测试者） | 执行验证 | 准确命令、执行结果、遗漏项 |
+| Reviewer（审查者） | 独立审查改动 | 按优先级排列的问题清单 |
 
 ```text
-Request -> Coordinator inspects repo / status
-  -> Explorer (optional) -> Architect (optional) -> plan approval
-  -> Implementer (disjoint scopes) -> Tester -> Reviewer
-  -> fix findings -> rerun checks -> human handoff
+接收需求 -> 协调者检查仓库/状态
+  -> Explorer（按需）-> Architect（按需）-> 确认方案
+  -> Implementer（文件范围互不冲突）-> Tester -> Reviewer
+  -> 修复问题 -> 重新验证 -> 人工交接
 ```
 
-## Rules
+## 编排规则
 
-- Tiny tasks do not need all agents.
-- Give subagents **bounded inputs** and **structured outputs** (`WORKER_REPORT` preferred).
-- Assign disjoint file scopes to parallel workers.
-- Subagents are collaborators, not correctness guarantees; **coordinator verifies** outputs and evidence.
-- **Anti-substitution**: if a child reports missing assignment or empty handoff, repair and re-delegate; never present parent-generated content as the child result.
-- Agent config cannot be assumed to elevate parent permissions or override provider/MCP settings.
-- External publishing, production writes, visibility changes, and deployments require human approval.
+- 简单任务不必调用全部智能体。
+- 为子智能体提供**明确的任务范围**和**结构化输出要求**，优先采用 `WORKER_REPORT` 格式。
+- 并行任务的文件修改范围必须互不重叠。
+- 子智能体只能提供协作，不能保证结果正确；**协调者必须核对输出和证据**。
+- **禁止结果替代**：子智能体未收到任务或交接内容为空时，应修复后重新委派；不得用父智能体生成的内容冒充子智能体结果。
+- 不应假设智能体配置可以提升父级权限，或覆盖 Provider/MCP 的安全设置。
+- 对外发布、生产写入、仓库可见性变更和部署都必须先获得人工授权。
 
-## Handoff contract
+## 交接规范
 
-Every delegated completion should include:
+每个委派任务完成时应包含：
 
 ```text
 changed_files:
