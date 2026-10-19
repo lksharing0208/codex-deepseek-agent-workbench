@@ -1,35 +1,35 @@
-# Skills, Plugins, MCP, Prompts
+# 技能、插件、MCP 与提示词
 
-## Definitions
+## 概念说明
 
-- **Skill**: folder with `SKILL.md` (name + description + workflow steps); optional scripts/references/assets. Use for **repeatable** multi-step workflows.
-- **Plugin**: distributable package that can bundle Skills, MCP config, and supporting resources. Validate manifest/schema against current official docs before publishing.
-- **MCP**: external tools/resources with their own authentication and authorization. Only enable trusted servers and minimum required access. Never commit tokens. `.mcp.json` is an example and must be verified for the target surface.
-- **Prompt**: manually invoked task brief. Promote repeated multi-step prompts to Skills.
-- **Scripts**: deterministic executables for validation, install, or config mutation. Preferred over free-form shell in Skills when side effects or verification matter.
+- **Skill（技能）**：包含 `SKILL.md`（名称、描述、工作步骤）的目录，也可以附带脚本、参考资料和资源。适合承载可重复执行的多步骤工作流。
+- **Plugin（插件）**：可分发的软件包，可以组合技能、MCP 配置及相关资源。发布前必须根据当前官方文档核对清单格式与字段。
+- **MCP**：连接外部工具或资源的协议与服务，各自拥有独立的认证和授权机制。只启用可信服务并遵循最小权限原则；严禁提交访问令牌。`.mcp.json` 仅为示例，启用前需核验目标环境是否支持。
+- **Prompt（提示词）**：人工调用的任务说明。相同步骤反复使用时，应考虑将其整理为技能。
+- **Script（脚本）**：用于校验、安装或修改配置的确定性可执行程序。涉及副作用或必须核验的操作时，优先使用脚本，而不是在技能中直接执行不受约束的 Shell 命令。
 
-## Closed-loop responsibilities
+## 闭环职责划分
 
-| Concern | Owner |
-|---------|--------|
-| When to run a workflow | Skill `description` + decision tree |
-| How to mutate config / validate | Scripts |
-| Task language & acceptance framing | Prompts |
-| Integration & truth-checking | Coordinator (see `AGENTS.md`) |
-| External tools | MCP (trusted only) |
+| 事项 | 负责层 | 说明 |
+|---|---|---|
+| 何时启动工作流 | 技能描述与决策树 | 判断是否触发流程 |
+| 如何修改配置或执行校验 | 脚本 | 负责确定性操作及结果验证 |
+| 任务描述与验收标准 | 提示词 | 明确目标、约束和交付要求 |
+| 结果整合与真实性核验 | 协调者 | 参见 `AGENTS.md` |
+| 外部系统访问 | MCP | 仅使用可信服务及必要权限 |
 
-## Skill authoring rules (optimized)
+## 技能编写规范
 
-1. **Negative constraints** in `description`: state when **not** to trigger the skill.
-2. **Decision tree first**: inspect status / repo before side effects.
-3. **Structured output**: require `WORKER_REPORT` or the project final-report template.
-4. **No secret handling in prose**: credentials only via approved secure channels; never echo or write to repo files.
-5. **Stop conditions**: destructive, production, publish, deploy → stop unless authorized.
+1. **明确不适用范围**：在 `description` 中说明哪些情况不应触发该技能。
+2. **先决策再执行**：任何有副作用的操作前，先检查当前状态和仓库内容。
+3. **要求结构化输出**：使用 `WORKER_REPORT` 或项目统一的最终报告模板。
+4. **不在文本中处理秘密信息**：凭据只能通过获批准的安全渠道传递；不得回显或写入仓库文件。
+5. **设置停止条件**：涉及破坏性操作、生产环境、发布或部署时，未经授权必须停止。
 
-## Prompt → Skill promotion
+## 将提示词升级为技能
 
-If a prompt is used more than twice with the same steps, convert it to a Skill under `.agents/skills/<name>/SKILL.md` and keep a thin prompt that only invokes the skill.
+如果同一个提示词以相同步骤使用超过两次，可将其转换为 `.agents/skills/<技能名称>/SKILL.md`，并让原提示词只保留简短的调用说明。
 
-## “Plus” note
+## 关于“Plus”的说明
 
-This template interprets “plus” as **Plugins** (packaging layer), not a subscription plan. If a specific Plus extension is meant, identify it before adapting.
+本模板将“Plus”按 **Plugins（插件）** 理解，而不是订阅套餐。如果你指的是某个具体的 Plus 扩展，请先明确其名称，再进行适配。
