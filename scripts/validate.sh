@@ -3,7 +3,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-for f in AGENTS.md README.md .codex/agents/explorer.toml .agents/skills/feature-delivery/SKILL.md .codex-plugin/plugin.json docs/06-multi-scenario-architecture.md docs/07-scenario-tool-matrix.md docs/08-deepseek-runtime-config.md; do
+for f in AGENTS.md README.md .codex/agents/explorer.toml .agents/skills/feature-delivery/SKILL.md .codex-plugin/plugin.json docs/06-multi-scenario-architecture.md docs/07-scenario-tool-matrix.md docs/08-deepseek-runtime-config.md scripts/scenarios/README.md; do
   test -f "$f" || { echo "[失败] 缺少文件：$f" >&2; exit 1; }
   echo "[通过] $f"
 done
@@ -40,6 +40,21 @@ if tomllib:
 else:
     print('[提示] 当前 Python 无 tomllib，跳过 TOML 语法检查')
 PYVALIDATE
+
+python3 -m py_compile scripts/scenarios/*.py
+echo '[通过] 场景 Python 脚本语法检查'
+
+TMP_DIR="$(mktemp -d)"
+trap 'rm -rf "$TMP_DIR"' EXIT
+printf 'episode,title,summary,hook\n1,开端,主角发现秘密,真相是谁\n' > "$TMP_DIR/outline.csv"
+python3 scripts/scenarios/validate_drama_outline.py "$TMP_DIR/outline.csv"
+printf 'timestamp,symbol,price\n2026-10-19T09:30:00+08:00,TEST,12.5\n' > "$TMP_DIR/market.csv"
+python3 scripts/scenarios/validate_market_csv.py "$TMP_DIR/market.csv"
+printf '测试文本\n第二行\n' > "$TMP_DIR/text.txt"
+python3 scripts/scenarios/writing_word_count.py "$TMP_DIR/text.txt" >/dev/null
+cp "$TMP_DIR/text.txt" "$TMP_DIR/text2.txt"
+python3 scripts/scenarios/legal_text_diff.py "$TMP_DIR/text.txt" "$TMP_DIR/text2.txt" >/dev/null
+echo '[通过] 场景脚本冒烟测试'
 
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   git diff --check
