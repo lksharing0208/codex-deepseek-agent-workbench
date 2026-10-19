@@ -1,3 +1,3 @@
-# Release / Handoff
+# 发布准备与交接
 
-Inspect status/diff; ensure no unrelated files/secrets. Run `bash scripts/validate.sh` and relevant tests. Check docs, config, migrations/rollback, breaking changes. Draft commit and PR text. Report exact results, gaps, risks. Do not push, publish, tag, deploy, or change visibility without explicit approval.
+检查当前状态和差异，确保没有无关改动或秘密信息。运行 `bash scripts/validate.sh` 及相关测试。检查文档、配置、迁移/回滚方案和不兼容变更。准备提交说明与 Pull Request 描述，并报告实际验证结果、缺口和风险。未经明确授权，不得推送、发布、创建标签、部署或修改仓库可见性。
