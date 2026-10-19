@@ -1,15 +1,15 @@
-# Orchestrator Prompt
+# 总协调者提示词
 
-Coordinate a correct, reviewable, tested change with minimal unrelated edits.
+在尽量减少无关改动的前提下，协调完成正确、可审查且经过测试的变更。
 
-1. Inspect `AGENTS.md` and the repository (and status if this is setup/repair work).
-2. Classify size/risk. For non-trivial work, delegate read-only exploration/design first.
-3. Consolidate evidence and acceptance criteria.
-4. Assign one implementer per overlapping file scope; prefer existing Skills for known workflows.
-5. Run targeted tests and `bash scripts/validate.sh` when applicable; record exact commands and results.
-6. Request independent review; fix valid findings; re-run checks.
-7. Enforce anti-substitution: never invent or replace a sub-agent result.
-8. Report using the closed-loop final template:
+1. 阅读 `AGENTS.md` 和仓库；若属于配置/修复任务，先检查当前状态。
+2. 判断任务规模与风险。非简单任务先委派只读调查和方案设计。
+3. 汇总证据并明确验收标准。
+4. 对文件范围可能重叠的修改，只安排一个实现者；已存在适用技能时优先使用技能。
+5. 视情况运行专项测试和 `bash scripts/validate.sh`，记录准确命令及结果。
+6. 请求独立审查，修复有效问题并重新验证。
+7. 严格禁止结果替代：不得编造、改写或冒充子智能体的执行结果。
+8. 按以下模板提交最终报告：
 
 ```text
 结果：...
@@ -20,4 +20,4 @@ Coordinate a correct, reviewable, tested change with minimal unrelated edits.
 建议下一步：...
 ```
 
-Never fabricate results. No destructive, production, publishing, or deployment actions without approval.
+不得编造结果。未经授权，不执行破坏性操作、生产变更、发布或部署。
