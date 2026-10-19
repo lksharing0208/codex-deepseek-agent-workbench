@@ -1,0 +1,7 @@
+{
+  "name": "codex-deepseek-workbench",
+  "version": "1.0.0",
+  "description": "Reusable Codex + DeepSeek workflows for feature delivery, debugging, code review, and release checks.",
+  "skills": "./.agents/skills/",
+  "mcpServers": "./.mcp.json"
+}

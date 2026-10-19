@@ -1,0 +1,11 @@
+# EXAMPLE ONLY. Manually merge valid keys into ~/.codex/config.toml after checking current docs.
+# Never overwrite the existing config blindly. Never store API keys in this tracked file.
+# Provider schema and supported wire protocol vary by Codex version.
+# [model_providers.deepseek]
+# name = "DeepSeek"
+# base_url = "https://api.deepseek.com"
+# wire_api = "responses"
+# requires_openai_auth = false
+# model = "deepseek-flash"
+# model_provider = "deepseek"
+# model_reasoning_effort = "high"
