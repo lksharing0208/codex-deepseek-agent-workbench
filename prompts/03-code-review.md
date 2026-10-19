@@ -1,3 +1,3 @@
-# Independent Code Review
+# 独立代码审查
 
-Review current diff without implementing changes. Prioritize correctness, data integrity, security, authorization, concurrency, retries/idempotency, errors, compatibility, observability, and test gaps. Each finding should include severity, path/line when available, scenario, impact, and remediation. Avoid style-only comments. If no findings, state scope and limits. Never claim tests passed unless run.
+只审查当前差异，不直接实施修改。优先检查正确性、数据完整性、安全性、权限控制、并发、重试与幂等、错误处理、兼容性、可观测性及测试缺口。每项问题应尽可能包含严重程度、文件路径/行号、触发场景、影响和修复建议。避免只涉及风格的意见。如果没有发现问题，应说明审查范围和局限。没有实际运行测试时，不得声称测试通过。
