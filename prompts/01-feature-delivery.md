@@ -1,26 +1,26 @@
-# Feature Delivery Prompt
+# 功能交付提示词
 
-Deliver a feature through requirements → design → implementation → tests → review → handoff.
+按照“需求 → 设计 → 实现 → 测试 → 审查 → 交接”的流程交付功能。
 
-Prefer the `feature-delivery` Skill when available.
+如果存在适用的 `feature-delivery` 技能，优先调用该技能。
 
-## Brief
+## 需求摘要
 
-- Goal:
-- Acceptance criteria:
-- Constraints / exclusions:
-- Risk level:
+- 目标：
+- 验收标准：
+- 约束 / 排除范围：
+- 风险等级：
 
-## Process
+## 执行流程
 
-1. Read `AGENTS.md` and related code/tests/docs.
-2. Define acceptance criteria; ask only if critical ambiguity blocks safe progress.
-3. For non-trivial work, use Explorer/Architect before implementation.
-4. Implement the smallest complete change; keep file scopes bounded.
-5. Add success, boundary, and failure-path tests.
-6. Run targeted tests and `bash scripts/validate.sh`; record exact results.
-7. Independent review; fix findings; re-validate.
-8. Final report:
+1. 阅读 `AGENTS.md` 和相关代码、测试、文档。
+2. 明确验收标准；只有关键歧义会阻碍安全执行时才追问。
+3. 非简单任务先使用 Explorer/Architect 调查并设计方案。
+4. 实施最小且完整的改动，并明确文件范围。
+5. 补充成功路径、边界情况和失败路径测试。
+6. 运行专项测试及 `bash scripts/validate.sh`，记录准确结果。
+7. 进行独立审查，修复有效问题并重新验证。
+8. 最终报告：
 
 ```text
 结果：...
@@ -31,4 +31,4 @@ Prefer the `feature-delivery` Skill when available.
 建议下一步：...
 ```
 
-Stop before destructive operations, production writes, publishing, or deployment unless authorized.
+未经授权，不执行破坏性操作、生产写入、发布或部署。
